@@ -1,5 +1,11 @@
 const puppeteer = require('puppeteer');
 
+const username = ''; //do not upload to github!!!
+const password = ''; //do not upload to github!!!
+
+const login_url = 'https://twitter.com/login';
+const composeTweet_url = 'https://twitter.com/compose/tweet';
+const home_url = 'https://twitter.com/home';
 
 (async() => {
   const browser = await puppeteer.launch({
@@ -7,49 +13,37 @@ const puppeteer = require('puppeteer');
   });
   const page = await browser.newPage();
 
-  // await page.setRequestInterception(true);
-  await page.goto('https://twitter.com/login');
-  await page.waitForNavigation({ waitUntil: "domcontentloaded" }).catch(e => {
-    console.log("Error: " + e);
-  });
-  // await page.waitFor(2000).catch(e => {
-  //   console.log("Error: " + e);
-  // });
-  // await page.$eval('.r-30o5oe r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-1inuy60 r-utggzx r-vmopo1 r-1w50u8q r-1swcuj1 r-1dz5y72 r-1ttztb7 r-13qz1uu', e => e.value = "user_name")
-  // await page.$eval('session[password]', e => e.value = "password");
+  await page.goto(login_url);
 
   await page
-    .click('name="session[username_or_email]"')
-    .then(() => console.log("clicked it username_or_email"))
-    .catch(e => {
-      console.log("Error: " + e);
-  });
+    .waitFor('input[name="session[username_or_email]"]');
 
-  await page.keyboard.type('hellloooooo')
-    .then(() => console.log("typed username"))
-    .catch(e => {
-      console.log("Error: " + e);
-  });
+  await page.type('form[class="r-13qz1uu"] input[name="session[username_or_email]"]', 
+    username, {delay:26});
+    
 
-  await page.waitFor(2000);
+  await page.waitFor(483);
 
   await page
-    .click('name="session[password]"')
-    .then(() => console.log("clicked it password"))
-    .catch(e => {
-      console.log("Error: " + e);
-  });
+    .waitFor('input[name="session[password]"]');
 
-  await page.waitFor(1000);
+  await page.type('form[class="r-13qz1uu"] input[name="session[password]"]', 
+    password, {delay:32});
 
-  await page.keyboard.type('swag')
-    .then(() => console.log("typed password"))
-    .catch(e => {
-      console.log("Error: " + e);
-  });
+  await page.waitFor(631);
 
-// await page.click('.submit.EdgeButton.EdgeButton--primary.EdgeButtom--medium')
+  await page
+    .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-vlx1xi r-zg41ew r-1jayybb r-17bavie r-1ny4l3l r-15bsvpr r-o7ynqc r-6416eg r-lrvibr"]');
+
+  await page.url() === home_url;
+  await page.waitFor(1000); //wait till it's loaded
+  await page.goto(composeTweet_url);
+
+  await page.keyboard.type('this is an automated message', {delay:34});
+
+  await page.waitFor(500);
+
+  await page
+    .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-1n0xq6e r-1vuscfd r-1dhvaqw r-1ny4l3l r-1fneopy r-o7ynqc r-6416eg r-lrvibr"]');
 })();
-
-// await page.type('#twistercool', 'r-30o5oe r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-1inuy60 r-utggzx r-vmopo1 r-1w50u8q r-1swcuj1 r-1dz5y72 r-1ttztb7 r-13qz1uu');
 
