@@ -1,18 +1,46 @@
 const puppeteer = require('puppeteer');
 
-const username = ''; //do not upload to github!!!
-const password = ''; //do not upload to github!!!
+const username = 'pierrebrassart80@hotmail.fr'; //do not upload to github!!!
+const password = 'luckyone'; //do not upload to github!!!
+const message = 'hello';
+
 
 const login_url = 'https://twitter.com/login';
 const composeTweet_url = 'https://twitter.com/compose/tweet';
 const home_url = 'https://twitter.com/home';
 
+let browser;
+let page;
+
 (async() => {
-  const browser = await puppeteer.launch({
+  browser = await puppeteer.launch({
     headless: false,
   });
-  const page = await browser.newPage();
+  
 
+  const pages = await browser.pages();
+
+  page = pages[0];
+
+  await login();
+
+  await page.waitFor('*');
+
+  await page.goto(composeTweet_url);
+
+  await page.keyboard.type(message, {delay:34});
+
+  await page.waitFor(500);
+
+  await page
+    .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-1n0xq6e r-1vuscfd r-1dhvaqw r-1ny4l3l r-1fneopy r-o7ynqc r-6416eg r-lrvibr"]');
+
+
+  
+})();
+
+
+async function login(){
   await page.goto(login_url);
 
   await page
@@ -35,15 +63,18 @@ const home_url = 'https://twitter.com/home';
   await page
     .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-vlx1xi r-zg41ew r-1jayybb r-17bavie r-1ny4l3l r-15bsvpr r-o7ynqc r-6416eg r-lrvibr"]');
 
-  await page.url() === home_url;
-  await page.waitFor(1000); //wait till it's loaded
+}
+
+async function sendTweet(inputMessage){
   await page.goto(composeTweet_url);
 
-  await page.keyboard.type('this is an automated message', {delay:34});
+  
+  await page.keyboard.type(message, {delay:34});
 
   await page.waitFor(500);
 
   await page
     .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-1n0xq6e r-1vuscfd r-1dhvaqw r-1ny4l3l r-1fneopy r-o7ynqc r-6416eg r-lrvibr"]');
-})();
+
+}
 
