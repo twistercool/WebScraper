@@ -1,13 +1,14 @@
 const puppeteer = require('puppeteer');
 
-const username = 'pierrebrassart80@hotmail.fr'; //do not upload to github!!!
-const password = 'luckyone'; //do not upload to github!!!
-const message = 'hello';
+const username = 'remiEddyMalou@hotmail.fr'; //do not upload to github!!!
+const password = 'bonjour123'; //do not upload to github!!!
+const message = 'normalMessage';
 
 
 const login_url = 'https://twitter.com/login';
 const composeTweet_url = 'https://twitter.com/compose/tweet';
 const home_url = 'https://twitter.com/home';
+const signUp_url = 'https://twitter.com/i/flow/signup';
 
 let browser;
 let page;
@@ -24,18 +25,7 @@ let page;
 
   await login();
 
-  await page.waitFor('*');
-
-  await page.goto(composeTweet_url);
-
-  await page.keyboard.type(message, {delay:34});
-
-  await page.waitFor(500);
-
-  await page
-    .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-1n0xq6e r-1vuscfd r-1dhvaqw r-1ny4l3l r-1fneopy r-o7ynqc r-6416eg r-lrvibr"]');
-
-
+  await sendTweet();
   
 })();
 
@@ -66,15 +56,38 @@ async function login(){
 }
 
 async function sendTweet(inputMessage){
+  await page.waitFor('*');
+
   await page.goto(composeTweet_url);
 
+  const sendingMessage = inputMessage || message;
   
-  await page.keyboard.type(message, {delay:34});
+  await page.keyboard.type(sendingMessage, {delay:34});
 
   await page.waitFor(500);
 
   await page
     .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-1n0xq6e r-1vuscfd r-1dhvaqw r-1ny4l3l r-1fneopy r-o7ynqc r-6416eg r-lrvibr"]');
+
+}
+
+async function newAccount(name, email, month, day, year){
+  await page.goto(signUp_url);
+
+  await page
+    .waitFor('input[class="r-30o5oe r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-1inuy60 r-utggzx r-vmopo1 r-1w50u8q r-1lrr6ok r-1dz5y72 r-1ttztb7 r-13qz1uu"]');
+
+  await page
+    .type('input[class="r-30o5oe r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-1inuy60 r-utggzx r-vmopo1 r-1w50u8q r-1lrr6ok r-1dz5y72 r-1ttztb7 r-13qz1uu"]',
+      name, {delay:64});
+
+  await page
+    .click('div[class="css-18t94o4 css-901oao r-1n1174f r-1qd0xha r-a023e6 r-16dba41 r-ad9z0x r-19h5ruw r-bcqeeo r-qvutc0"]');
+
+  await page
+    .type('input[class="r-30o5oe r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-1inuy60 r-utggzx r-vmopo1 r-1w50u8q r-1lrr6ok r-1dz5y72 r-1ttztb7 r-13qz1uu"]',
+      email, {delay:57});
+  
 
 }
 
