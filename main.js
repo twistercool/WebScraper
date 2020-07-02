@@ -23,10 +23,12 @@ let page;
 
   page = pages[0];
 
-  await login();
+  // await login();
 
-  await sendTweet();
+  // await sendTweet();
   
+  await newAccount('myName', 'myName@email.com');
+
 })();
 
 
@@ -84,8 +86,10 @@ async function newAccount(name, email, month, day, year){
   await page
     .click('div[class="css-18t94o4 css-901oao r-1n1174f r-1qd0xha r-a023e6 r-16dba41 r-ad9z0x r-19h5ruw r-bcqeeo r-qvutc0"]');
 
+  await page.waitFor(350);
+
   await page
-    .type('input[class="r-30o5oe r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-homxoj r-poiln3 r-7cikom r-1ny4l3l r-1inuy60 r-utggzx r-vmopo1 r-1w50u8q r-1lrr6ok r-1dz5y72 r-1ttztb7 r-13qz1uu"]',
+    .type('input[name="email"]',
       email, {delay:57});
   
 
