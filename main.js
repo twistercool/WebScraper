@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 
-const username = 'remiEddyMalou@hotmail.fr'; //do not upload to github!!!
+const username = 'eddy-Malou'; //do not upload to github!!!
+const email = 'jeanmartin99@gmail.com';
 const password = 'bonjour123'; //do not upload to github!!!
 const message = 'normalMessage';
 
@@ -10,8 +11,8 @@ const composeTweet_url = 'https://twitter.com/compose/tweet';
 const home_url = 'https://twitter.com/home';
 const signUp_url = 'https://twitter.com/i/flow/signup';
 
-let browser;
-let page;
+let browser = null;
+let page = null;
 
 (async() => {
   browser = await puppeteer.launch({
@@ -25,9 +26,9 @@ let page;
 
   // await login();
 
-  // await sendTweet();
+  // await sendTweet('this is the tweet I'm sending');
   
-  await newAccount('myName', 'myName@email.com');
+  await newAccount(username, email, 5, 13, 2003);
 
 })();
 
@@ -88,10 +89,29 @@ async function newAccount(name, email, month, day, year){
 
   await page.waitFor(350);
 
+  await page.type('input[name="email"]', email, {delay:57});
+
+  await page.waitFor(356);
+
+  await page.select('select[aria-label="Month"]', `${month}`);
+
+  await page.waitFor(239);
+
+  await page.select('select[aria-label="Day"]', `${day}`);
+
+  await page.waitFor(432);
+
+  await page.select('select[aria-label="Year"]', `${year}`);
+
+  await page.waitFor(670);
+
   await page
-    .type('input[name="email"]',
-      email, {delay:57});
-  
+    .click('div[class="css-18t94o4 css-1dbjc4n r-urgr8i r-42olwf r-sdzlij r-1phboty r-rs99b7 r-1w2pmg r-1vsu8ta r-aj3cln r-1ny4l3l r-1fneopy r-o7ynqc r-6416eg r-lrvibr"]');
+
+  await page.waitFor(1500);
+
+  await page
+    .click('div[role="button"]');
 
 }
 
